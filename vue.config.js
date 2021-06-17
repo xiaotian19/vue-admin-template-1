@@ -8,22 +8,22 @@ function resolve(dir) {
 
 const name = defaultSettings.title || 'vue Admin Template' // page title
 
-// If your port is set to 80,
-// use administrator privileges to execute the command line.
-// For example, Mac: sudo npm run
-// You can change the port by the following methods:
+// 如果将端口设置为80，
+// 请使用管理员权限来执行该命令行。
+// 例如, Mac: sudo npm run
+// 您可以通过以下方法更改该端口：
 // port = 9528 npm run dev OR npm run dev --port = 9528
 const port = process.env.port || process.env.npm_config_port || 9528 // dev port
 
-// All configuration item explanations can be find in https://cli.vuejs.org/config/
+// 所有的配置项说明都可以在https://cli.vuejs.org/config/中找到
 module.exports = {
   /**
-   * You will need to set publicPath if you plan to deploy your site under a sub path,
-   * for example GitHub Pages. If you plan to deploy your site to https://foo.github.io/bar/,
-   * then publicPath should be set to "/bar/".
-   * In most cases please use '/' !!!
-   * Detail: https://cli.vuejs.org/config/#publicpath
-   */
+    * 如果计划在子路径下部署站点，则需要设置公共路径，
+    * 例如，例如GitHub页面。如果您计划将站点部署到https://foo.github.io/bar/，
+    *，公共路径应设置为“/”。
+    * 在大多数情况下，请使用“/”！！！
+    * 详细信息：https://cli.vuejs.org/config/#publicpath
+    */
   publicPath: '/',
   outputDir: 'dist',
   assetsDir: 'static',
@@ -39,8 +39,8 @@ module.exports = {
     before: require('./mock/mock-server.js')
   },
   configureWebpack: {
-    // provide the app's title in webpack's name field, so that
-    // it can be accessed in index.html to inject the correct title.
+    // 在网络包的名称字段中提供了该应用程序的标题，因此
+    // 可以在index.html中访问它以注入正确的标题。
     name: name,
     resolve: {
       alias: {
@@ -49,21 +49,21 @@ module.exports = {
     }
   },
   chainWebpack(config) {
-    // it can improve the speed of the first screen, it is recommended to turn on preload
+    // 可提高第一屏幕的速度，建议开启预加载
     config.plugin('preload').tap(() => [
       {
         rel: 'preload',
-        // to ignore runtime.js
+        // 将忽略runtime.js
         // https://github.com/vuejs/vue-cli/blob/dev/packages/@vue/cli-service/lib/config/app.js#L171
         fileBlacklist: [/\.map$/, /hot-update\.js$/, /runtime\..*\.js$/],
         include: 'initial'
       }
     ])
 
-    // when there are many pages, it will cause too many meaningless requests
+    // 当有很多页面时，它会导致太多毫无意义的请求
     config.plugins.delete('prefetch')
 
-    // set svg-sprite-loader
+    // 设置 svg-sprite-loader
     config.module
       .rule('svg')
       .exclude.add(resolve('src/icons'))
@@ -87,7 +87,7 @@ module.exports = {
             .plugin('ScriptExtHtmlWebpackPlugin')
             .after('html')
             .use('script-ext-html-webpack-plugin', [{
-            // `runtime` must same as runtimeChunk name. default is `runtime`
+              // “运行时”必须runtimeChunk一样的名字。默认是“运行时”
               inline: /runtime\..*\.js$/
             }])
             .end()
@@ -99,17 +99,17 @@ module.exports = {
                   name: 'chunk-libs',
                   test: /[\\/]node_modules[\\/]/,
                   priority: 10,
-                  chunks: 'initial' // only package third parties that are initially dependent
+                  chunks: 'initial' // 只包最初依赖第三方
                 },
                 elementUI: {
-                  name: 'chunk-elementUI', // split elementUI into a single package
-                  priority: 20, // the weight needs to be larger than libs and app or it will be packaged into libs or app
-                  test: /[\\/]node_modules[\\/]_?element-ui(.*)/ // in order to adapt to cnpm
+                  name: 'chunk-elementUI', // elementUI分割成一个单一的包
+                  priority: 20, // 重量需要大于libs和应用将会打包成库或应用
+                  test: /[\\/]node_modules[\\/]_?element-ui(.*)/ // 为了适应cnpm
                 },
                 commons: {
                   name: 'chunk-commons',
-                  test: resolve('src/components'), // can customize your rules
-                  minChunks: 3, //  minimum common number
+                  test: resolve('src/components'), // 可以定制你的规则
+                  minChunks: 3, //  最低常见的数量
                   priority: 5,
                   reuseExistingChunk: true
                 }
